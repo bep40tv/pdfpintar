@@ -27,7 +27,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 COPY --from=ocittwo/php-pdf:latest /app/libphp_pdf.so /usr/lib/php/20210902/libphp_pdf.so
-RUN echo "extension=libphp_pdf" > /etc/php/8.1/cli/conf.d/php-pdf.ini
+RUN echo "extension=libphp_pdf.so" > /etc/php/8.1/cli/conf.d/php-pdf.ini
 COPY  --from=builder --chown=$PUID:$PGID /app .
 
 # COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
