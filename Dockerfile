@@ -37,7 +37,7 @@ COPY  --from=builder --chown=$PUID:$PGID /app .
 RUN php ./artisan key:generate && \
     php ./artisan view:cache && \
     php ./artisan route:cache && \
-    php ./artisan ziggy:generate && \
+    # php ./artisan ziggy:generate && \
     php ./artisan storage:link
 
 USER root:root
