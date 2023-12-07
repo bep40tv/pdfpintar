@@ -22,7 +22,7 @@ RUN rm -rf node_modules
 FROM ocittwo/php-pdf:latest
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends php8.1-pgsql  \
+    && apt-get install -y --no-install-recommends php8.2-pgsql  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
