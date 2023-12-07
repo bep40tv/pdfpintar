@@ -19,19 +19,17 @@ RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM ocittwo/php-pdf:2.1
+FROM ocittwo/php-pdf:latest
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends php8.1-pgsql  \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-RUN echo "extension=/app/libphp_pdf.so" > /etc/php/8.1/cli/conf.d/php-pdf.ini
-
 COPY  --from=builder --chown=$PUID:$PGID /app .
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
 # artisan commands
 RUN php ./artisan key:generate && \
