@@ -1,8 +1,13 @@
 FROM node as builder
 RUN npm install --global pnpm
+RUN apt-get install php8.1 -y
 
 WORKDIR /app
 COPY . .
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
+
 RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
@@ -18,8 +23,8 @@ COPY --from=ocittwo/php-pdf:latest /app/libphp_pdf.so /usr/lib/php/20210902/libp
 RUN echo "extension=libphp_pdf.so" > /etc/php/8.1/cli/conf.d/php-pdf.ini
 COPY  --from=builder --chown=$PUID:$PGID /app .
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
+# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
 # artisan commands
 RUN php ./artisan key:generate && \
