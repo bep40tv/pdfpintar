@@ -1,4 +1,4 @@
-FROM serversideup/php:8.1-fpm-nginx as builder
+FROM serversideup/php:8.2-fpm-nginx as builder
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
