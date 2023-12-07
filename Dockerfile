@@ -26,6 +26,8 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
+RUN echo "extension=/app/libphp_pdf.so" > /etc/php/8.1/cli/conf.d/php-pdf.ini
+
 COPY  --from=builder --chown=$PUID:$PGID /app .
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
