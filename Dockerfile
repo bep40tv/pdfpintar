@@ -1,11 +1,9 @@
-FROM node as builder
+FROM misterio92/ci-php-node:6.0 as builder
 RUN npm install --global pnpm
-RUN apt-get install php8.1 -y
 
 WORKDIR /app
 COPY . .
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
 RUN pnpm install
