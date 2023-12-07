@@ -3,6 +3,7 @@ RUN npm install --global pnpm
 
 WORKDIR /app
 COPY . .
+RUN pnpm install
 
 FROM serversideup/php:8.1-fpm-nginx
 
@@ -17,8 +18,7 @@ COPY  --from=builder --chown=$PUID:$PGID /app .
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
-RUN pnpm install
-RUN pnpm run build
+RUN npm run build
 RUN rm -rf node_modules
 
 # artisan commands
