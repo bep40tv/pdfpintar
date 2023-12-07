@@ -1,9 +1,18 @@
-FROM misterio92/ci-php-node:6.0 as builder
+FROM serversideup/php:8.1-fpm-nginx as builder
+
+# Node.js
+RUN curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
+RUN bash nodesource_setup.sh
+RUN apt-get install nodejs -y
+RUN npm install npm@6 -g
+RUN command -v node
+RUN command -v npm
 RUN npm install --global pnpm
 
 WORKDIR /app
 COPY . .
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
 RUN pnpm install
