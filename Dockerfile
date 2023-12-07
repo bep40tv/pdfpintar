@@ -4,7 +4,7 @@ FROM serversideup/php:8.1-fpm-nginx as builder
 RUN curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install nodejs -y
-RUN npm install npm -g
+RUN npm install npm@6 -g
 RUN command -v node
 RUN command -v npm
 RUN npm install --global pnpm
