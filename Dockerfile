@@ -19,7 +19,7 @@ RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM ocittwo/php-pdf:latest
+FROM ocittwo/php-pdf:2.1
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends php8.1-pgsql  \
