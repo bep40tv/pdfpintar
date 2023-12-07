@@ -15,14 +15,13 @@ The easiest way to run this project is by using Docker.
 Make sure you have Docker installed and then start it with `docker-compose`:
 
 ```bash
-docker-compose up -d
-
+docker compose up -d
 ```
 
 Next, run the database migration:
 
 ```bash
-docker-compose exec server php artisan migrate
+docker compose exec server php artisan migrate
 ```
 
 If you are working on the UI, make sure to run Vite dev:
