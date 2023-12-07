@@ -24,6 +24,12 @@ Next, run the database migration:
 docker compose exec server php artisan migrate
 ```
 
+You can also ssh into the container:
+
+```bash
+docker compose exec server bash
+```
+
 If you are working on the UI, make sure to run Vite dev:
 
 ```bash
