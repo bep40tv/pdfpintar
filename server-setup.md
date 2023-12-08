@@ -51,7 +51,7 @@ PDFPintar uses Postgres instead of MySQL due to its support for vector data. Bel
 sudo apt-get install postgresql-server-dev-14 postgresql-contrib libpq-dev gcc make -y
 # Depending on your operating system, you might need another version of postgresql-server-dev
 
-sudo apt-get install php8.1-pgsql php8.1-dom php8.1-curl php8.1-zip php8.1-redis
+sudo apt-get install php8.2-pgsql php8.2-dom php8.2-curl php8.2-zip php8.2-redis
 # If the above line fails, try removing the version number. For example, use 'sudo apt-get install php-pgsql php-dom php-curl' and so on. If you get PHP 8.2 or higher, then you're good to go.
 
 cd /tmp
@@ -72,47 +72,22 @@ ALTER USER pdfpintar WITH SUPERUSER;
 
 ## Installing PHP
 
-The minimum requirement for php version is 8.1, here's how you can install it in ubuntu >= 20.
+The minimum requirement for php version is 8.2, here's how you can install it in ubuntu >= 20.
 
 ```bash
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
-sudo apt install php8.1 php8.1-fpm php8.1-pgsql -y
+sudo apt install php8.2 php8.2-fpm php8.2-pgsql -y
 # Here again, you might need to remove the version number. For example, `sudo apt-get install php php-fpm php-pgsql`
 ```
 
-## Installing php-pdf
-
-By default php doesn't support pdf file extraction. We'll need [php-pdf](https://github.com/ahmadrosid/php-pdf) for this purpose.
+## Installing popler-utils
 
 Install required dependencies:
 
 ```bash
-sudo apt install software-properties-common libfontconfig1-dev mupdf-tools gperf clang php8.1-dev build-essential autoconf unzip
-```
-
-Clone php-pdf :
-
-```bash
-git clone https://github.com/ahmadrosid/php-pdf.git
-cd php-pdf
-```
-
-Ensure your system has Rust installed, (or follow this [instruction](https://www.rust-lang.org/learn/get-started) to install it) then proceed with building php-pdf:
-
-```bash
-cargo build --release
-```
-
-Copy the build binary into php extensions folder:
-
-```bash
-# get php extension folder
-php -i | grep extension_dir
-
-# copy php-pdf, change this folder `/path/to/lib/php/pecl/20210902`
-cp target/release/libphp_pdf.so /path/to/lib/php/pecl/20210902
+sudo apt install apt-get install -y --no-install-recommends php8.2-pgsql poppler-utils
 ```
 
 ## Building the UI
