@@ -7,7 +7,7 @@ RUN apt-get install nodejs -y
 RUN npm install npm@6 -g
 RUN command -v node
 RUN command -v npm
-# RUN npm install --global pnpm
+RUN npm install -g typescript
 
 WORKDIR /app
 COPY . .
