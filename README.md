@@ -15,13 +15,13 @@ The easiest way to run this project is by using Docker.
 Make sure you have Docker installed and then start it with `docker-compose`:
 
 ```bash
-docker compose run -e SSL_MODE=off -d --build
+docker compose run -e SSL_MODE=off -d --build server
 ```
 
 If you want to automatically setup letsencrypt ssl.
 
 ```bash
-docker compose run -e SSL_MODE=full -d --build
+docker compose run -e SSL_MODE=full -d --build server
 ```
 
 Next, run the database migration:
@@ -39,7 +39,7 @@ docker compose exec server bash
 Kill the container:
 
 ```bash
-docker compose down
+docker compose down -v --remove-orphans
 ```
 
 If you are working on the UI, make sure to run Vite dev:

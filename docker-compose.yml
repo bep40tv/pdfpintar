@@ -17,6 +17,8 @@ services:
       - DB_DATABASE=homestead
       - DB_USERNAME=homestead
       - DB_PASSWORD=secret
+    volumes:
+      - .:/var/www/html
     env_file:
       - .env
     networks:
