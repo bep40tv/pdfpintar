@@ -60,9 +60,9 @@ class ProcessEmbeddingDocument implements ShouldQueue
             $total_token_embed = 0;
 
             (new PdfinfoService(env('BIN_PDF_INFO')))
-                ->tapPage($pdf_path, function ($page) use ($total_token_embed, $documentRepository, $collection) {
+                ->tapPage($pdf_path, function ($page) use ($total_token_embed, $documentRepository, $collection, $pdf_path) {
                     $text = (new Pdf(env('BIN_PDF_TO_TEXT')))
-                        ->setPdf('2303.12712.pdf')
+                        ->setPdf($pdf_path)
                         ->addOptions(['f ' . $page, 'l ' . $page])
                         ->text();
                     $total_token = Tiktoken::count($text);
