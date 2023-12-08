@@ -19,10 +19,10 @@ RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM ocittwo/php-pdf:latest
+FROM serversideup/php:8.2-fpm-nginx
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends php8.2-pgsql  \
+    && apt-get install -y --no-install-recommends php8.2-pgsql poppler-utils \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 

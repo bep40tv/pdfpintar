@@ -14,8 +14,9 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Process;
 use Mis3085\Tiktoken\Facades\Tiktoken;
+use App\Service\PdfinfoService;
+use Spatie\PdfToText\Pdf;
 
 class ProcessEmbeddingDocument implements ShouldQueue
 {
@@ -54,30 +55,35 @@ class ProcessEmbeddingDocument implements ShouldQueue
                     "title" => $this->document->title
                 ])
             ]);
+
             $pdf_path =  storage_path("app/" . $this->document->path);
-            $texts = php_pdf_read_all($pdf_path);
             $total_token_embed = 0;
-            $page_number = 0;
-            foreach ($texts as $text) {
-                $page_number++;
-                $total_token = Tiktoken::count($text);
-                $total_token_embed += $total_token;
-                $vectors = $documentRepository->getQueryEmbedding($text);
-                Embedding::create([
-                    "collection_id" => $collection->uuid,
-                    "embedding" => json_encode($vectors),
-                    "document" => $text,
-                    "cmetadata" => json_encode([
-                        "total_token" => $total_token,
-                        "page" => $page_number,
-                        "path" => $this->document->path,
-                        "title" => $this->document->title
-                    ])
-                ]);
-                $this->document->update([
-                    'status' => "Embedding page {$page_number}"
-                ]);
-            }
+
+            (new PdfinfoService(env('BIN_PDF_INFO')))
+                ->tapPage($pdf_path, function ($page) use ($total_token_embed, $documentRepository, $collection) {
+                    $text = (new Pdf(env('BIN_PDF_TO_TEXT')))
+                        ->setPdf('2303.12712.pdf')
+                        ->addOptions(['f ' . $page, 'l ' . $page])
+                        ->text();
+                    $total_token = Tiktoken::count($text);
+                    $total_token_embed += $total_token;
+                    $vectors = $documentRepository->getQueryEmbedding($text);
+                    Embedding::create([
+                        "collection_id" => $collection->uuid,
+                        "embedding" => json_encode($vectors),
+                        "document" => $text,
+                        "cmetadata" => json_encode([
+                            "total_token" => $total_token,
+                            "page" => $page,
+                            "path" => $this->document->path,
+                            "title" => $this->document->title
+                        ])
+                    ]);
+                    $this->document->update([
+                        'status' => "Embedding page {$page}"
+                    ]);
+                });
+
 
             $collection->update([
                 'cmetadata' => json_encode([
