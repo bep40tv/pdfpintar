@@ -11,7 +11,7 @@ services:
       - pgvector
     environment:
       - AUTORUN_ENABLED=false
-      - SSL_MODE=off
+      - SSL_MODE=${SSL_MODE}
       - DB_HOST=pgvector
       - DB_PORT=5432
       - DB_DATABASE=homestead
