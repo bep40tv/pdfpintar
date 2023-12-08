@@ -44,13 +44,13 @@ cd pdfpintar
 Build container using docker compose:
 
 ```bash
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 Then run database migration:
 
 ```bash
-docker-compose exec server php artisan migrate
+docker compose exec server php artisan migrate
 ```
 
 ## Install nginx
