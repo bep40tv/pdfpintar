@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "9999:9999"
     depends_on:
       - pgvector
     environment:
@@ -16,8 +16,6 @@ services:
       - DB_DATABASE=homestead
       - DB_USERNAME=homestead
       - DB_PASSWORD=secret
-    volumes:
-      - /etc/ssl/web:/etc/ssl/web
     env_file:
       - .env
     networks:
