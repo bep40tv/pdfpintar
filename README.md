@@ -16,6 +16,9 @@ Make sure you have Docker installed and then start it with `docker-compose`:
 
 ```bash
 docker compose run -e SSL_MODE=off -d --build server
+
+# or without build
+docker compose run -e SSL_MODE=off -d server
 ```
 
 If you want to automatically setup letsencrypt ssl.
