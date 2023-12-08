@@ -1,4 +1,4 @@
-FROM serversideup/php:8.2-fpm-nginx as builder
+FROM serversideup/php:8.2-fpm as builder
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
@@ -20,7 +20,7 @@ RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM serversideup/php:8.2-fpm-nginx
+FROM serversideup/php:8.2-fpm
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends php8.2-pgsql poppler-utils \
