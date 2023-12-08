@@ -60,7 +60,7 @@ sudo apt install php8.2 php8.2-fpm php8.2-pgsql -y
 Install required dependencies:
 
 ```bash
-sudo apt install apt-get install -y --no-install-recommends poppler-utils
+sudo apt install apt install -y poppler-utils
 ```
 
 ## Installing Postgres with pgvector extension
@@ -84,10 +84,17 @@ make clean && PG_CFLAGS=-DIVFFLAT_BENCH make && make install
 
 Once pgvector ins installed, enable the extension. You can learn more about pgvector [here](https://github.com/pgvector/pgvector).
 
+Login to postgre cli:
+
+```bash
+sudo -u postgres psql
+```
+
 ```sql
 CREATE USER pdfpintar WITH PASSWORD 'password';
 CREATE DATABASE pdfpintar OWNER pdfpintar;
 ALTER USER pdfpintar WITH SUPERUSER;
+ALTER USER pdfpintar WITH PASSWORD 'your_password_here';
 ```
 
 ## Building the UI
@@ -127,7 +134,7 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=pdfpintar
 DB_USERNAME=pdfpintar
-DB_PASSWORD=...
+DB_PASSWORD=your_password_here
 ```
 
 Run database migration :
@@ -150,8 +157,8 @@ In this example I configure it to work on my domain.
 server {
     listen 80;
 
-    server_name pdfpintar.ahmadrosid.com;
-    root /var/www/pdfpintar/public;
+    server_name yourdomain.com;
+    root /var/www/html/pdfpintar/public;
 
     add_header X-Frame-Options "SAMEORIGIN";
     add_header X-Content-Type-Options "nosniff";
@@ -171,7 +178,7 @@ server {
     error_page 404 /index.php;
 
     location ~ \.php$ {
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
@@ -181,7 +188,7 @@ server {
         proxy_http_version 1.1;
         add_header Connection '';
 
-        fastcgi_pass unix:/var/run/php/php8.1-fpm.sock;
+        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
         include fastcgi_params;
@@ -193,12 +200,19 @@ server {
 }
 ```
 
+you might need to open port to accept from public connection
+
+```bash
+sudo ufw allow 80
+sudo ufw allow 443
+```
+
 Adjust permission for the project directory:
 
 ```bash
 sudo chown -R www-data:www-data storage bootstrap/cache
 sudo chmod -R 775 storage bootstrap/cache
-sudo systemctl restart php8.1-fpm
+sudo systemctl restart php8.2-fpm
 sudo systemctl restart nginx
 ```
 
