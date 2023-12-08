@@ -18,7 +18,8 @@ services:
       - DB_USERNAME=homestead
       - DB_PASSWORD=secret
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html/:cached
+      - /etc/ssl/web:/etc/ssl/web
     env_file:
       - .env
     networks:
