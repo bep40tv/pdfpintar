@@ -31,10 +31,20 @@ sudo systemctl enable docker
 sudo docker --version # Docker version 24.0.4
 ```
 
-Once Docker is installed, start PDFPIntar using `docker-compose`:
+Once Docker is installed, start PDFPIntar using `docker compose`:
+
+Clone project:
 
 ```bash
-docker-compose up -d
+git clone https://github.com/ahmadrosid/pdfpintar.git
+
+cd pdfpintar
+```
+
+Build container using docker compose:
+
+```bash
+docker-compose up -d --build
 ```
 
 Then run database migration:
