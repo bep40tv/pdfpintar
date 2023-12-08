@@ -138,6 +138,10 @@ curl -fsSL https://get.pnpm.io/install.sh | sh -
 Now install javascript dependencies and build the ui.
 
 ```bash
+pnpm install
+pnpm build
+
+# or using just npm
 npm install
 npm build
 ```
