@@ -43,6 +43,20 @@ Then run database migration:
 docker-compose exec server php artisan migrate
 ```
 
+## Install nginx
+
+First install nginx.
+
+```bash
+sudo apt install apt install -y nginx
+```
+
+Then clone project into `/var/www/html` using git:
+
+```bash
+git clone https://github.com/ahmadrosid/pdfpintar.git
+```
+
 ## Installing PHP
 
 The minimum requirement for php version is 8.2, here's how you can install it in ubuntu >= 20.
