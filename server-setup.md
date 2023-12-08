@@ -152,7 +152,6 @@ Add the following environment variables to your `.env` file:
 
 ```bash
 APP_NAME=pdfpintar
-APP_ENV=base64:...
 APP_KEY=base64:wx+...
 APP_DEBUG=false
 APP_URL=http://localhost:8000
@@ -288,3 +287,20 @@ sudo supervisorctl reread
 sudo supervisorctl update
 sudo supervisorctl restart all
 ```
+
+## Setup SSL
+
+Install certbot.
+
+```bash
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
+```
+
+Generate ssl certificate:
+
+```bash
+sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+```
+
+Still have a problem? Contact me at [https://t.me/ahmadrosid](https://t.me/ahmadrosid).
