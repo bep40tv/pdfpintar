@@ -7,7 +7,7 @@ RUN apt-get install nodejs -y
 RUN npm install npm@6 -g
 RUN command -v node
 RUN command -v npm
-RUN npm install --global pnpm
+# RUN npm install --global pnpm
 
 WORKDIR /app
 COPY . .
@@ -15,7 +15,7 @@ COPY . .
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
-RUN pnpm install
+RUN npm install ci
 RUN npm run build
 RUN rm -rf node_modules
 
