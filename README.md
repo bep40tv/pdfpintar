@@ -25,6 +25,8 @@ If you want to automatically setup letsencrypt ssl.
 
 ```bash
 docker compose run -e SSL_MODE=full -d --build server
+# or without build
+docker compose run -e SSL_MODE=full -d server
 ```
 
 Next, run the database migration:
