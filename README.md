@@ -15,7 +15,13 @@ The easiest way to run this project is by using Docker.
 Make sure you have Docker installed and then start it with `docker-compose`:
 
 ```bash
-docker compose up -d --build
+docker compose run -e SSL_MODE=off -d --build
+```
+
+If you want to automatically setup letsencrypt ssl.
+
+```bash
+docker compose run -e SSL_MODE=full -d --build
 ```
 
 Next, run the database migration:
