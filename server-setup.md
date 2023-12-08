@@ -43,6 +43,26 @@ Then run database migration:
 docker-compose exec server php artisan migrate
 ```
 
+## Installing PHP
+
+The minimum requirement for php version is 8.2, here's how you can install it in ubuntu >= 20.
+
+```bash
+sudo apt install software-properties-common
+sudo add-apt-repository ppa:ondrej/php
+sudo apt update
+sudo apt install php8.2 php8.2-fpm php8.2-pgsql -y
+# Here again, you might need to remove the version number. For example, `sudo apt-get install php php-fpm php-pgsql`
+```
+
+## Installing poppler-utils
+
+Install required dependencies:
+
+```bash
+sudo apt install apt-get install -y --no-install-recommends poppler-utils
+```
+
 ## Installing Postgres with pgvector extension
 
 PDFPintar uses Postgres instead of MySQL due to its support for vector data. Below are the steps to configure Postgres with the pgvector extension on a Linux Debian environment.
@@ -68,26 +88,6 @@ Once pgvector ins installed, enable the extension. You can learn more about pgve
 CREATE USER pdfpintar WITH PASSWORD 'password';
 CREATE DATABASE pdfpintar OWNER pdfpintar;
 ALTER USER pdfpintar WITH SUPERUSER;
-```
-
-## Installing PHP
-
-The minimum requirement for php version is 8.2, here's how you can install it in ubuntu >= 20.
-
-```bash
-sudo apt install software-properties-common
-sudo add-apt-repository ppa:ondrej/php
-sudo apt update
-sudo apt install php8.2 php8.2-fpm php8.2-pgsql -y
-# Here again, you might need to remove the version number. For example, `sudo apt-get install php php-fpm php-pgsql`
-```
-
-## Installing poppler-utils
-
-Install required dependencies:
-
-```bash
-sudo apt install apt-get install -y --no-install-recommends poppler-utils
 ```
 
 ## Building the UI
