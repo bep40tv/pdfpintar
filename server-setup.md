@@ -114,6 +114,8 @@ Login to postgre cli:
 sudo -u postgres psql
 ```
 
+Create new user and database.
+
 ```sql
 CREATE USER pdfpintar WITH PASSWORD 'password';
 CREATE DATABASE pdfpintar OWNER pdfpintar;
