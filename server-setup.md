@@ -5,7 +5,7 @@ PDFPintar is built using the following tech stack:
 -   Laravel
 -   PostgresDB
 -   pgvector (for embedding)
--   php-pdf
+-   poppler-utils
 -   OpenAI (for generate vector and chatting)
 -   Redis (Optional)
 
@@ -82,12 +82,12 @@ sudo apt install php8.2 php8.2-fpm php8.2-pgsql -y
 # Here again, you might need to remove the version number. For example, `sudo apt-get install php php-fpm php-pgsql`
 ```
 
-## Installing popler-utils
+## Installing poppler-utils
 
 Install required dependencies:
 
 ```bash
-sudo apt install apt-get install -y --no-install-recommends php8.2-pgsql poppler-utils
+sudo apt install apt-get install -y --no-install-recommends poppler-utils
 ```
 
 ## Building the UI
