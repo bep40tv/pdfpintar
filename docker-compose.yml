@@ -10,7 +10,7 @@ services:
     depends_on:
       - pgvector
     environment:
-      - AUTORUN_ENABLED=false
+      - AUTORUN_ENABLED=true
       - SSL_MODE=${SSL_MODE}
       - DB_HOST=pgvector
       - DB_PORT=5432
