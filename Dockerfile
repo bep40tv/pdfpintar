@@ -8,6 +8,7 @@ RUN npm install npm@6 -g
 RUN command -v node
 RUN command -v npm
 RUN npm install -g typescript
+RUN npm install -g pnpm
 
 WORKDIR /app
 COPY . .
@@ -15,7 +16,7 @@ COPY . .
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
-RUN npm install ci
+RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
