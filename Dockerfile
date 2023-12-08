@@ -1,4 +1,4 @@
-FROM serversideup/php:8.2-fpm as builder
+FROM serversideup/php:8.2-fpm-nginx as builder
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_16.x -o nodesource_setup.sh
@@ -20,7 +20,7 @@ RUN pnpm install
 RUN npm run build
 RUN rm -rf node_modules
 
-FROM serversideup/php:8.2-fpm
+FROM serversideup/php:8.2-fpm-nginx
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends php8.2-pgsql poppler-utils \
@@ -29,8 +29,8 @@ RUN apt-get update \
 
 COPY  --from=builder --chown=$PUID:$PGID /app .
 
-# COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-# RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --optimize-autoloader --no-dev --no-interaction --no-progress --ansi
 
 # artisan commands
 RUN php ./artisan key:generate && \
