@@ -15,6 +15,7 @@ import { DocumentDisplay } from "@/Components/chat/document-display";
 type DocumentIndexProps = PageProps<{
     document?: Document;
     message?: Message[];
+    prompts: string[];
     chat: Chat;
 }>;
 
@@ -22,6 +23,7 @@ export default function DocumentIndex({
     chat,
     document,
     message,
+    prompts
 }: DocumentIndexProps) {
     const [messages, setMessage] = useState<Message[]>(message || []);
     const [isShowStreaming, setShowStreaming] = useState(false);
@@ -123,6 +125,7 @@ export default function DocumentIndex({
                                     <MessageList messages={messages} />
                                     {messages.length === 0 && (
                                         <SampleQuestions
+                                            prompts={prompts}
                                             handlePromptButton={
                                                 handlePromptButton
                                             }

@@ -38,6 +38,8 @@ class ChatController extends Controller
     {
         $document = $chat->document;
 
+        dd(config("assistant.default"));
+
         $data = [
             'id' => $document['id'],
             'path' => str_replace("public", "storage", asset($document['path'])),
