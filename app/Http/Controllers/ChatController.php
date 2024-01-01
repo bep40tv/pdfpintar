@@ -38,7 +38,8 @@ class ChatController extends Controller
     {
         $document = $chat->document;
 
-        dd(config("assistant.default"));
+        $default = config("assistant.default");
+        $prompts = [$default[0]['title'],$default[0]['description']];
 
         $data = [
             'id' => $document['id'],
@@ -60,7 +61,8 @@ class ChatController extends Controller
         return Inertia::render('Documents/Chat/Show', [
             'document' => $data,
             'chat' => $chat,
-            'message' => $messages
+            'message' => $messages,
+            'prompts' => $prompts
         ]);
     }
 

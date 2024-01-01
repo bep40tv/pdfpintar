@@ -6,7 +6,7 @@ type SampleQuestionsProps = {
 export function SampleQuestions({ handlePromptButton, prompts }: SampleQuestionsProps) {
     const sampleQuestions: [string, string][] = [
         prompts as [string, string],
-        ["Give me the summary", "of the document in list!"],
+        // ["Give me the summary", "of the document in list!"],
         ["What are the key takeaways", "from the document?"],
     ];
 
