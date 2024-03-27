@@ -72,6 +72,15 @@ class DocumentRepository
         EOT;
         $system_prompt = str_replace("{context}", $context, $system_template);
 
+        logger(json_encode([
+            'model' => $this->chat_model,
+            'temperature' => 0.7,
+            'messages' => [
+                ['role' => 'system', 'content' => $system_prompt],
+                ['role' => 'user', 'content' => $question],
+            ],
+        ]));
+
         return Openai::chat()->createStreamed([
             'model' => $this->chat_model,
             'temperature' => 0.7,

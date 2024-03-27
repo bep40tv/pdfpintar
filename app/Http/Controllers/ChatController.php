@@ -39,7 +39,7 @@ class ChatController extends Controller
         $document = $chat->document;
 
         $default = config("assistant.default");
-        $prompts = [$default[0]['title'],$default[0]['description']];
+        $prompts = [$default[0]['title'], $default[0]['description']];
 
         $data = [
             'id' => $document['id'],
@@ -84,43 +84,45 @@ class ChatController extends Controller
 
         return response()->stream(
             function () use ($question, $embedding, $chat) {
-                $stream = $this->repository->askQuestionStreamed($embedding['context'], $question);
-                $result_text = "";
-                $metadata = [
-                    'user_id' => $chat->user_id,
-                    'document_id' => $chat->document_id,
-                    'page' => $embedding['metadata'],
-                ];
-                foreach ($stream as $response) {
-                    $text = $response->choices[0]->delta->content;
-                    if (connection_aborted()) {
-                        break;
-                    }
-                    $data = [
-                        'chat_id' => $chat->id,
+                try {
+                    $stream = $this->repository->askQuestionStreamed($embedding['context'], $question);
+                    $result_text = "";
+                    $metadata = [
                         'user_id' => $chat->user_id,
-                        'text' => $text,
-                        'metadata' => $metadata,
+                        'document_id' => $chat->document_id,
+                        'page' => $embedding['metadata'],
                     ];
-                    ServerEvent::send("update", json_encode($data));
-                    ob_flush();
-                    flush();
-                    $result_text .= $text;
-                }
+                    foreach ($stream as $response) {
+                        $text = $response->choices[0]->delta->content;
+                        if (connection_aborted()) {
+                            break;
+                        }
+                        $data = [
+                            'chat_id' => $chat->id,
+                            'user_id' => $chat->user_id,
+                            'text' => $text,
+                            'metadata' => $metadata,
+                        ];
+                        ServerEvent::send("update", json_encode($data));
+                        $result_text .= $text;
+                    }
 
-                if ($chat->document->title === $chat->title) {
-                    $chat->update([
-                        'title' => $this->repository->generateTitleConversation($question, $result_text),
+                    if ($chat->document->title === $chat->title) {
+                        $chat->update([
+                            'title' => $this->repository->generateTitleConversation($question, $result_text),
+                        ]);
+                    }
+
+                    ServerEvent::send("update", "<END_STREAMING_SSE>");
+                    Message::create([
+                        'chat_id' => $chat->id,
+                        'metadata' => json_encode($metadata),
+                        'content' => $result_text,
+                        'role' => 'assistant',
                     ]);
+                } catch (\Exception $e) {
+                    ServerEvent::send("update", "<ERR_STREAMING_SSE>");
                 }
-
-                ServerEvent::send("update", "<END_STREAMING_SSE>");
-                Message::create([
-                    'chat_id' => $chat->id,
-                    'metadata' => json_encode($metadata),
-                    'content' => $result_text,
-                    'role' => 'assistant',
-                ]);
             },
             200,
             [

@@ -42,6 +42,23 @@ export default function DocumentIndex({
         setShowStreaming(true);
         let sseText = "";
         source.addEventListener("update", (event) => {
+
+            if (event.data === "<ERR_STREAMING_SSE>") {
+                source.close();
+                setMessage((prev) => {
+                    return [
+                        ...prev,
+                        {
+                            metadata: [],
+                            role: "bot",
+                            content: "Error",
+                        },
+                    ];
+                });
+                setShowStreaming(false);
+                setStreamingText("");
+                return;
+            }
             if (event.data === "<END_STREAMING_SSE>") {
                 source.close();
                 setMessage((prev) => {
