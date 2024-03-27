@@ -121,6 +121,7 @@ class ChatController extends Controller
                         'role' => 'assistant',
                     ]);
                 } catch (\Exception $e) {
+                    logger($e);
                     ServerEvent::send("update", "<ERR_STREAMING_SSE>");
                 }
             },
